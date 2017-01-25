@@ -1,0 +1,28 @@
+.back-button {
+    margin-bottom: 20px;
+}
+
+.gallery {
+    width: 700px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.thumbnail {
+    border: 2px solid #00b18f;
+}
+
+.thumbnail:hover {
+    border: 2px solid #00b18f;
+}
+
+ul.thumbs li {
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.thumbs li {
+    list-style: none;
+}
+

@@ -1,0 +1,23 @@
+<a class="btn btn-default back-button" routerLink="/"><span class="glyphicon glyphicon-chevron-left"></span></a>
+<div class="gallery">
+    <ul class="thumbs">
+        <li *ngFor="let photo of photos">
+            <a (click)="openPhoto(photo)">
+              <img [src]=photo.sizes[1].src [lazyLoad]=photo.sizes[1].src class="thumbnail"
+                   [tooltip]="tolTemplate"
+                   placement="bottom">
+              <template #tolTemplate>
+                <div [innerHtml]="'<span>' +
+                                    '<ul>' +
+                                        '<li>Album Id: ' + photo.id + '</li>' +
+                                        '<li>Photo Id: ' + photo.owner_id + '</li>' +
+                                        '<li>Text: ' + photo.text + '</li>' +
+                                        '</ul>' +
+                                     '</span'"></div>
+
+              </template>
+            </a>
+        </li>
+    </ul>
+</div>
+

@@ -1,0 +1,24 @@
+<a class="btn btn-default back-button" routerLink="/album/{{albumId}}"><span class="glyphicon glyphicon-chevron-left"></span></a>
+<div class="row">
+    <div class="col-xs-6">
+        <img src="{{imageUrl}}" alt="image" class="img-rounded">
+    </div>
+    <div class="col-xs-6">
+        <ul class="list-group">
+            <li class="list-group-item">
+                Album Id: {{photo.album_id}}
+            </li>
+            <li class="list-group-item">
+                Id: {{photo.id}}
+            </li>
+            <li class="list-group-item">
+                Owner Id: {{photo.owner}}
+            </li>
+            <li class="list-group-item">
+                Date: {{photo.date * 1000 | date}}
+            </li>
+        </ul>
+    </div>
+</div>
+
+

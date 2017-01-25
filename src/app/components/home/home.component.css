@@ -1,0 +1,46 @@
+.connect {
+  position: absolute;
+  top:150px;
+  width: 250px;
+  height: 250px;
+  background-color: #00d4b4;
+  border-radius: 50%;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+
+.connect:hover {
+  background-color: #00b18f;
+  box-shadow: none;
+}
+
+.vk-button {
+  position: relative;
+  font-weight: bold;;
+  font-size: 16px;
+  top: 45%;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  display: block;
+  color: #ffffff;
+}
+
+.media {
+  padding: 10px;
+  margin: 20px 10px;
+  border: 4px solid #b495ff;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+
+.media:hover {
+  border: 1px solid #b495ff;;
+  box-shadow: none;
+}
+
+.nv-file-over {
+  border: dotted 3px red;
+}
+
+

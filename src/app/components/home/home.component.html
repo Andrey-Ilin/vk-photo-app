@@ -1,0 +1,169 @@
+<div class="alert alert-success" *ngIf="!auth.authenticated()">
+  <h3>Welcome</h3>
+  <h5>You are not logged in, please click Login button</h5>
+</div>
+
+<div class="alert alert-success" *ngIf="showGreatePlace()">
+  <h3>Welcome</h3>
+  <h5 class="text-primary">{{user.first_name}} {{user.last_name}}</h5>
+</div>
+
+<div class="container" *ngIf="showConnectionButton()">
+  <div class="row">
+    <div class="col-xs-4 col-xs-offset-4">
+      <div class="connect" (click)="getToken()">
+        <div class="vk-button">
+          Connect App to VK
+        </div>
+        <div class="vk-button">
+          Click me
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!uploadMode">
+  <div *ngIf="albumsCount && showGreatePlace()">
+    <div class="media" *ngFor="let album of albumsInfo.items" (click)="openAlbum(album.id)">
+      <div class="media-left">
+        <a>
+          <img class="media-object img-thumbnail" src="{{album.sizes[1].src}}" alt="album cover photo">
+        </a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{album.title}}</h4>
+        <div>
+          <span class="glyphicon glyphicon-file" aria-hidden="true"> {{album.size}} files</span>
+        </div>
+        <div>
+          <span class="glyphicon glyphicon-download" aria-hidden="true"> last updated {{album.updated | date:"MM/dd/yy" }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="uploadMode">
+  <div class="row">
+    <div class="col-xs-1">
+      <a class="btn btn-default back-button" (click)="turnUploadMode()"
+         tooltip="Back albums"
+         placement="bottom">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+    </div>
+    <div class="col-xs-6 col-xs-offset-2">
+      This module do not work now, I need proxy for upload photo to VK
+      <h3>Select album</h3>
+      <ng-select [allowClear]="true"
+                 [items]="items"
+                 [disabled]="disabled"
+                 (data)="refreshValue($event)"
+                 (selected)="selected($event)"
+                 (removed)="removed($event)"
+                 (typed)="typed($event)"
+                 placeholder="No album selected"></ng-select>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3">
+        <h3>Select files</h3>
+        <div ng2FileDrop
+             [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+             (fileOver)="fileOverBase($event)"
+             [uploader]="uploader"
+             class="well my-drop-zone">
+          Drop files her or <input type="file" ng2FileSelect [uploader]="uploader"/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3" style="margin-bottom: 40px">
+
+        <h3>Upload queue</h3>
+        <p>Queue length: {{ uploader?.queue?.length }}</p>
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th width="50%">Name</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let item of uploader.queue">
+            <td><strong>{{ item?.file?.name }}</strong></td>
+            <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+            <td *ngIf="uploader.isHTML5">
+              <div class="progress" style="margin-bottom: 0;">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+              </div>
+            </td>
+            <td class="text-center">
+              <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+              <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+              <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+            </td>
+            <td nowrap>
+              <button type="button" class="btn btn-success btn-xs"
+                      (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                <span class="glyphicon glyphicon-upload"></span> Upload
+              </button>
+              <button type="button" class="btn btn-warning btn-xs"
+                      (click)="item.cancel()" [disabled]="!item.isUploading">
+                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+              </button>
+              <button type="button" class="btn btn-danger btn-xs"
+                      (click)="item.remove()">
+                <span class="glyphicon glyphicon-trash"></span> Remove
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div>
+          <div>
+            Queue progress:
+            <div class="progress" style="">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-success btn-s"
+                  (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+            <span class="glyphicon glyphicon-upload"></span> Upload all
+          </button>
+          <button type="button" class="btn btn-warning btn-s"
+                  (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+          </button>
+          <button type="button" class="btn btn-danger btn-s"
+                  (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+            <span class="glyphicon glyphicon-trash"></span> Remove all
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="albumsCount && showGreatePlace()">
+  <div class="col-xs-1 col-xs-offset-11">
+    <a class="btn btn-default back-button" (click)="turnUploadMode()" *ngIf="!uploadMode"
+       tooltip="Upload photo to albums"
+       placement="bottom">
+      <span class="glyphicon glyphicon-upload"></span>
+    </a>
+  </div>
+</div>
+
+
+
+
+
